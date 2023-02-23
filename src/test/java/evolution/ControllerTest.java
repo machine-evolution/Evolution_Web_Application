@@ -10,9 +10,15 @@ public class ControllerTest {
     public void testEcho() {
         RestTemplate restTemplate = new RestTemplate();
         EchoRequest request = new EchoRequest();
+        // A polite conversation.
         request.message = "你瞅啥";
         System.out.println("request message: " + request.message);
         EchoResponse response = restTemplate.postForObject("http://localhost:8080/echo", request, EchoResponse.class);
+        System.out.println("response message: " + response.message);
+        // Another polite conversation.
+        request.message = "再瞅一个试试";
+        System.out.println("request message: " + request.message);
+        response = restTemplate.postForObject("http://localhost:8080/echo", request, EchoResponse.class);
         System.out.println("response message: " + response.message);
     }
 }
