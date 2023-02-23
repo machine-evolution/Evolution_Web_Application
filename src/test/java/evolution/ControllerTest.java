@@ -11,8 +11,8 @@ public class ControllerTest {
         RestTemplate restTemplate = new RestTemplate();
         EchoRequest request = new EchoRequest();
         request.message = "你瞅啥";
-        System.out.println("client: " + request.message);
+        System.out.println("request message: " + request.message);
         EchoResponse response = restTemplate.postForObject("http://localhost:8080/echo", request, EchoResponse.class);
-        System.out.println("client: " + response.message);
+        System.out.println("response message: " + response.message);
     }
 }
