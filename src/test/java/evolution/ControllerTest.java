@@ -1,7 +1,7 @@
 package evolution;
 
-import evolution.controller.data.EchoRequest;
-import evolution.controller.data.EchoResponse;
+import evolution.week1.controller.data.EchoRequest;
+import evolution.week1.controller.data.EchoResponse;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
 

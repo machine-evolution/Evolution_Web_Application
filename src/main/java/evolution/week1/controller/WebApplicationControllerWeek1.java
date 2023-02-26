@@ -1,13 +1,15 @@
-package evolution.controller;
+package evolution.week1.controller;
 
-import evolution.controller.data.EchoRequest;
-import evolution.controller.data.EchoResponse;
+import evolution.week1.controller.data.EchoRequest;
+import evolution.week1.controller.data.EchoResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequestMapping("/week1")
 @RestController
-public class WebApplicationController {
+public class WebApplicationControllerWeek1 {
     @PostMapping("/echo")
     public EchoResponse echo(@RequestBody EchoRequest request) {
         String requestMessage = request.message;
