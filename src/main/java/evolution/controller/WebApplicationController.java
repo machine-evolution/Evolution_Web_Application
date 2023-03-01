@@ -34,7 +34,7 @@ public class WebApplicationController {
     @PostMapping("/post")
     public PostResponse post(@RequestBody PostRequest request) {
         PostResponse response = new PostResponse();
-        response.message = "The person's name is " + Optional.ofNullable(request.name).orElse("unknown") + ".";
+        response.message = "[" + request.name + ", " + request.gender + ", " +  request.age + "]";
         return response;
     }
 
