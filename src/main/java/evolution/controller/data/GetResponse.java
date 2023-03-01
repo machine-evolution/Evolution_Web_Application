@@ -1,4 +1,4 @@
-package evolution.week2.controller.data;
+package evolution.controller.data;
 
 public class GetResponse {
     public String message;
