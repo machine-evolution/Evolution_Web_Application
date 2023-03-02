@@ -3,16 +3,28 @@ package evolution.controller;
 import evolution.controller.data.GetResponse;
 import evolution.controller.data.PostRequest;
 import evolution.controller.data.PostResponse;
+import evolution.controller.data.User;
+import jakarta.annotation.PostConstruct;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class WebApplicationController {
+    public List<User> users;
+
+    @PostConstruct
+    public void postConstruct() {
+        this.users = new ArrayList<>();
+    }
+
     @GetMapping("/get")
     public GetResponse get() {
         GetResponse response = new GetResponse();
         response.message = "This is a GET method.";
+        response.userCount = this.users.size();
         return response;
     }
 
@@ -35,6 +47,9 @@ public class WebApplicationController {
     public PostResponse post(@RequestBody PostRequest request) {
         PostResponse response = new PostResponse();
         response.message = "[" + request.name + ", " + request.gender + ", " +  request.age + "]";
+        User user = new User();
+        user.name = request.name; user.gender = request.gender; user.age = request.age;
+        this.users.add(user);
         return response;
     }
 

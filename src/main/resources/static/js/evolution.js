@@ -14,6 +14,12 @@ function submit() {
     });
 }
 
+function countUsers() {
+    get("http://localhost:8080/get", true, response => {
+        document.getElementById("message").textContent = "Number of Users: " + response.userCount;
+    });
+}
+
 function clearAll() {
     document.getElementById("name").value = "";
     document.getElementById("gender").value = "";
@@ -29,4 +35,13 @@ function post(url, request, asynchronous, consumer) {
     	consumer(JSON.parse(this.responseText));
     }
 	http.send(JSON.stringify(request));
+}
+
+function get(url, asynchronous, consumer) {
+    let http = new XMLHttpRequest();
+    http.open("GET", url, asynchronous);
+    http.onload = function() {
+        consumer(JSON.parse(this.responseText));
+    }
+    http.send();
 }
