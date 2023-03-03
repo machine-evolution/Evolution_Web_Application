@@ -1,5 +1,6 @@
 package evolution.controller.data;
 
-public class PostResponse {
+public class CheckIdResponse {
+    public Boolean valid;
     public String message;
 }

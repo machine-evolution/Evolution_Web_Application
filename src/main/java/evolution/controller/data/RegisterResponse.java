@@ -1,6 +1,5 @@
 package evolution.controller.data;
 
-public class GetResponse {
+public class RegisterResponse {
     public String message;
-    public Integer userCount;
 }

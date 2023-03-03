@@ -1,74 +1,40 @@
 package evolution.controller;
 
-import evolution.controller.data.GetResponse;
-import evolution.controller.data.PostRequest;
-import evolution.controller.data.PostResponse;
+import evolution.controller.data.CheckIdResponse;
+import evolution.controller.data.RegisterRequest;
+import evolution.controller.data.RegisterResponse;
 import evolution.controller.data.User;
-import jakarta.annotation.PostConstruct;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class WebApplicationController {
     public List<User> users;
 
-    @PostConstruct
-    public void postConstruct() {
+    public void WebApplicationController() {
         this.users = new ArrayList<>();
     }
 
-    @GetMapping("/get")
-    public GetResponse get() {
-        GetResponse response = new GetResponse();
-        response.message = "This is a GET method.";
-        response.userCount = this.users.size();
+    @GetMapping("/checkId")
+    public CheckIdResponse checkId(@RequestParam("id") String id) {
+        CheckIdResponse response = new CheckIdResponse();
+        // TODO: 对users成员变量进行遍历，判断ID是否有重复；若有重复则把valid字段设为false，若无重复则把valid字段设为true；message字段也要相应的进行更改，从而给用户一个清楚的提示
+        response.valid = true;
+        response.message = "";
         return response;
     }
 
-    @GetMapping("/getByPathVariable/{name}")
-    public GetResponse getByPathVariable(@PathVariable("name") String name) {
-        GetResponse response = new GetResponse();
-        response.message = "The name received is " + name + ".";
-        return response;
-    }
-
-    @GetMapping("/getByRequestParameter")
-    public GetResponse getByRequestParameter(@RequestParam("name") String name,
-                                             @RequestParam("age") int age) {
-        GetResponse response = new GetResponse();
-        response.message = "The person " + name + " is " + age + " years old.";
-        return response;
-    }
-
-    @PostMapping("/post")
-    public PostResponse post(@RequestBody PostRequest request) {
-        PostResponse response = new PostResponse();
-        response.message = "[" + request.name + ", " + request.gender + ", " +  request.age + "]";
+    @PostMapping("/register")
+    public RegisterResponse post(@RequestBody RegisterRequest request) {
+        RegisterResponse response = new RegisterResponse();
         User user = new User();
-        user.name = request.name; user.gender = request.gender; user.age = request.age;
+        user.id = request.id; user.password = request.password;
+        user.name = request.name; user.gender = request.gender;
+        // TODO: user.age = 从request中获取年龄(age) user.education = 从request中获取学历(education)
         this.users.add(user);
+        response.message = "The user is registered successfully.";
         return response;
-    }
-
-    @PostMapping("/postByRequestParameter")
-    public PostResponse postByRequestParameter(@RequestBody PostRequest request,
-                                               @RequestParam("gender") String gender) {
-        PostResponse response = new PostResponse();
-        response.message = "The person's name is: " + Optional.ofNullable(request.name).orElse("unknown")
-        + " and the person is a " + gender + ".";
-        return response;
-    }
-
-    @PutMapping("/put")
-    public void put() {
-        System.out.println("This is a PUT method.");
-    }
-
-    @DeleteMapping("/delete")
-    public void delete() {
-        System.out.println("This is a DELETE method.");
     }
 }

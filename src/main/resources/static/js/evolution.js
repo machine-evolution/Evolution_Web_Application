@@ -1,29 +1,39 @@
 function submit() {
+    let id = document.getElementById("id").value;
+    let password = document.getElementById("password").value;
     let name = document.getElementById("name").value;
     let gender = document.getElementById("gender").value;
-    let age = document.getElementById("age").value;
-    let request = {
-        name : name,
-        gender : gender,
-        age : age
-    };
-    post("http://localhost:8080/post", request, true, response => {
-        let message = response.message;
-        alert(message);
-        document.getElementById("message").textContent = message;
-    });
-}
-
-function countUsers() {
-    get("http://localhost:8080/get", true, response => {
-        document.getElementById("message").textContent = "Number of Users: " + response.userCount;
+    // let age = 参照上面姓名(name)的获取方式，获取年龄(age)
+    // let education = 参照上面性别(gender)的获取方式，获取学历(education)
+    get("http://localhost:8080/checkId", true, checkIdResponse => {
+        let idValid = checkIdResponse.valid;// 用户ID是否有效
+        if (idValid) {
+            let registerRequest = {
+                id : id,
+                password : password,
+                name : name,
+                gender : gender,
+                // 年龄(age)需要传
+                // 学历(education)需要传
+                // 请注意逗号的细节问题
+            };
+            post("http://localhost:8080/register", registerRequest, true, registerResponse => {
+                let message = registerResponse.message;
+                document.getElementById("message").textContent = message;
+            });
+        } else {
+            document.getElementById("message").textContent = checkIdResponse.message;
+        }
     });
 }
 
 function clearAll() {
+    document.getElementById("id").value = "";
+    document.getElementById("password").value = "";
     document.getElementById("name").value = "";
     document.getElementById("gender").value = "";
-    document.getElementById("age").value = "";
+    // 参照上边四行代码，将年龄(age)清除
+    // 参照上边四行代码，将学历(education)清除
     document.getElementById("message").textContent = "";
 }
 
