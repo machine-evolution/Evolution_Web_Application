@@ -4,6 +4,7 @@ import evolution.controller.data.CheckIdResponse;
 import evolution.controller.data.RegisterRequest;
 import evolution.controller.data.RegisterResponse;
 import evolution.controller.data.User;
+import jakarta.annotation.PostConstruct;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,7 +14,8 @@ import java.util.List;
 public class WebApplicationController {
     public List<User> users;
 
-    public void WebApplicationController() {
+    @PostConstruct
+    public void postConstruct() {
         this.users = new ArrayList<>();
     }
 
@@ -35,6 +37,7 @@ public class WebApplicationController {
         // TODO: user.age = 从request中获取年龄(age) user.education = 从request中获取学历(education)
         this.users.add(user);
         response.message = "The user is registered successfully.";
+        System.out.println(user);
         return response;
     }
 }

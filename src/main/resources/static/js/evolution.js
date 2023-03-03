@@ -1,11 +1,11 @@
-function submit() {
+function register() {
     let id = document.getElementById("id").value;
     let password = document.getElementById("password").value;
     let name = document.getElementById("name").value;
     let gender = document.getElementById("gender").value;
-    // let age = 参照上面姓名(name)的获取方式，获取年龄(age)
-    // let education = 参照上面性别(gender)的获取方式，获取学历(education)
-    get("http://localhost:8080/checkId", true, checkIdResponse => {
+    // TODO: let age = 参照上面姓名(name)的获取方式，获取年龄(age)
+    // TODO: let education = 参照上面性别(gender)的获取方式，获取学历(education)
+    get("http://localhost:8080/checkId?id=" + id, true, checkIdResponse => {
         let idValid = checkIdResponse.valid;// 用户ID是否有效
         if (idValid) {
             let registerRequest = {
@@ -13,9 +13,9 @@ function submit() {
                 password : password,
                 name : name,
                 gender : gender,
-                // 年龄(age)需要传
-                // 学历(education)需要传
-                // 请注意逗号的细节问题
+                // TODO: 年龄(age)需要传
+                // TODO: 学历(education)需要传
+                // TODO: 请注意逗号的细节问题
             };
             post("http://localhost:8080/register", registerRequest, true, registerResponse => {
                 let message = registerResponse.message;
@@ -32,9 +32,9 @@ function clearAll() {
     document.getElementById("password").value = "";
     document.getElementById("name").value = "";
     document.getElementById("gender").value = "";
-    // 参照上边四行代码，将年龄(age)清除
-    // 参照上边四行代码，将学历(education)清除
-    document.getElementById("message").textContent = "";
+    // TODO: 参照上边四行代码，将年龄(age)清除
+    // TODO: 参照上边四行代码，将学历(education)清除
+    document.getElementById("message").textContent = "Message to be Displayed";
 }
 
 function post(url, request, asynchronous, consumer) {

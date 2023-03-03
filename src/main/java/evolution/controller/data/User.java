@@ -7,4 +7,16 @@ public class User {
     public String gender;
     public Integer age;
     public String education;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", age=" + age +
+                ", education='" + education + '\'' +
+                '}';
+    }
 }
