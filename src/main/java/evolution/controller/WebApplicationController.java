@@ -1,10 +1,11 @@
 package evolution.controller;
 
-import evolution.controller.data.CheckIdResponse;
-import evolution.controller.data.RegisterRequest;
-import evolution.controller.data.RegisterResponse;
 import evolution.controller.data.User;
+import evolution.service.WebApplicationService;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -14,30 +15,35 @@ import java.util.List;
 public class WebApplicationController {
     public List<User> users;
 
+    @Autowired
+    public WebApplicationService service;
+
     @PostConstruct
     public void postConstruct() {
         this.users = new ArrayList<>();
     }
 
-    @GetMapping("/checkId")
-    public CheckIdResponse checkId(@RequestParam("id") String id) {
-        CheckIdResponse response = new CheckIdResponse();
-        // TODO: 对users成员变量进行遍历，判断ID是否有重复；若有重复则把valid字段设为false，若无重复则把valid字段设为true；message字段也要相应的进行更改，从而给用户一个清楚的提示
-        response.valid = true;
-        response.message = "";
-        return response;
+    /**
+     * TODO: Lists all kinds of methods.
+     */
+    @GetMapping("/request")
+    public void request(HttpServletRequest request) {
+        // remote host
+        String remoteHost = request.getRemoteHost();
+        System.out.println("remoteHost: " + remoteHost);
+        // remote address
+        String remoteAddress = request.getRemoteAddr();
+        System.out.println("remoteAddress: " + remoteAddress);
     }
 
-    @PostMapping("/register")
-    public RegisterResponse post(@RequestBody RegisterRequest request) {
-        RegisterResponse response = new RegisterResponse();
-        User user = new User();
-        user.id = request.id; user.password = request.password;
-        user.name = request.name; user.gender = request.gender;
-        // TODO: user.age = 从request中获取年龄(age) user.education = 从request中获取学历(education)
-        this.users.add(user);
-        response.message = "The user is registered successfully.";
-        System.out.println(user);
-        return response;
+    /**
+     * TODO: Lists all kinds of methods.
+     */
+    @GetMapping("/response")
+    public void response(HttpServletResponse response) {
+        // status
+        response.setStatus(10);
+        int status = response.getStatus();
+        System.out.println("status: " + status);
     }
 }
