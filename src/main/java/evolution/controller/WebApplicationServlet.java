@@ -2,6 +2,7 @@ package evolution.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import evolution.controller.data.User;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +15,17 @@ public class WebApplicationServlet extends HttpServlet {
     /**
      * TODO: Write the reflection codings in here.
      */
+
+    /**
+     *
+     * init
+     */
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        System.out.println("hello world");
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // path
@@ -36,8 +48,6 @@ public class WebApplicationServlet extends HttpServlet {
 //        String jsonString = JSONObject.toJSONString(user);
 //        out.print(jsonString);
 //        out.flush();
-
-
     }
 
     /**
