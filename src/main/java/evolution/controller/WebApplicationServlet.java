@@ -14,13 +14,13 @@ import java.util.Map;
 public class WebApplicationServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
-        super.init(config);// call it multiple times.
+        super.init(config);
         System.out.println("The initialization method has been invoked.");
     }
 
     @Override
     public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
-        super.service(request, response);// call it multiple times.
+        super.service(request, response);
         System.out.println("The service method has been invoked.");
     }
 
@@ -29,6 +29,10 @@ public class WebApplicationServlet extends HttpServlet {
         super.destroy();
         System.out.println("The destroy method has been invoked.");// call it multiple times.
     }
+
+    /**
+     * 通过 http://localhost:8080/servlet/get 进行调用
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /*
