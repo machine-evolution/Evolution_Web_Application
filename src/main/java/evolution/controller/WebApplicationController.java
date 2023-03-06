@@ -23,26 +23,49 @@ public class WebApplicationController {
         this.users = new ArrayList<>();
     }
 
-    /**
-     * TODO: Lists all kinds of methods.
-     */
-    @GetMapping("/request")
-    public void request(HttpServletRequest request) {
-        // remote host
-        String remoteHost = request.getRemoteHost();
-        System.out.println("remoteHost: " + remoteHost);
-        // remote address
-        String remoteAddress = request.getRemoteAddr();
-        System.out.println("remoteAddress: " + remoteAddress);
+    @GetMapping("/request/local")
+    public void requestLocal(HttpServletRequest request) {
+        String localAddress = request.getLocalAddr();
+        System.out.println("localAddress: " + localAddress);
+        int localPort = request.getLocalPort();
+        System.out.println("localPort: " + localPort);
+        String localName = request.getLocalName();
+        System.out.println("localName: " + localName);
     }
 
-    /**
-     * TODO: Lists all kinds of methods.
-     */
-    @GetMapping("/response")
-    public void response(HttpServletResponse response) {
-        // status
-        response.setStatus(10);
+    @GetMapping("/request/remote")
+    public void requestRemote(HttpServletRequest request) {
+        String remoteAddress = request.getRemoteAddr();
+        System.out.println("remoteAddress: " + remoteAddress);
+        int remotePort = request.getRemotePort();
+        System.out.println("remotePort: " + remotePort);// chrome, edge
+    }
+
+    @GetMapping("/request")
+    public void request(HttpServletRequest request) {
+        // URI
+        String requestUri = request.getRequestURI();
+        System.out.println("requestUri: " + requestUri);
+        // URL
+        String requestUrl = request.getRequestURL().toString();
+        System.out.println("requestUrl: " + requestUrl);
+        // request ID
+        String requestId = request.getRequestId();
+        System.out.println("requestId: " + requestId);
+    }
+
+    @GetMapping("/request/parameter")
+    public void requestParameter(HttpServletRequest request) {
+        // key : value
+        String name = request.getParameter("name");
+        System.out.println("name: " + name);
+        String age = request.getParameter("age");
+        System.out.println("age: " + age);
+    }
+
+    @GetMapping("/response/status")
+    public void response(HttpServletRequest request, HttpServletResponse response) {
+        response.setStatus(199);// 200, 404, 500, 502
         int status = response.getStatus();
         System.out.println("status: " + status);
     }

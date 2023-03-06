@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class Application {
     @Bean
-    public ServletRegistrationBean servletRegistrationBean(){
+    public ServletRegistrationBean servletRegistrationBean() {// 注册过程
         return new ServletRegistrationBean(new WebApplicationServlet(),"/servlet/*");
     }
 
