@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class WebApplicationServlet extends HttpServlet {
@@ -37,21 +38,14 @@ public class WebApplicationServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String requestUri = request.getRequestURI();
         System.out.println("Request URI: " + requestUri);
-        requestUri = requestUri.replace("/servlet/", "");
-        String methodName = null; String parameterString = null;
-        int questionMarkIndex = requestUri.indexOf("?");
-        if (questionMarkIndex >= 0) {
-            methodName = requestUri.substring(0, questionMarkIndex);
-            parameterString = requestUri.substring(questionMarkIndex + 1);
-        } else {
-            methodName = requestUri;
-        }
+        String methodName = requestUri.replace("/servlet/", "");
         System.out.println("Method Name: " + methodName);
-        System.out.println("Parameter String: " + parameterString);
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        System.out.println(parameterMap);
         Object result = null;
         try {
-            // TODO: 模仿doPost方法，使得WebApplicationService中的matchingScore方法可以通过反射的方式被调用
-            // result = TODO
+            Method method = this.service.getClass().getDeclaredMethod(methodName, Map.class);
+            result = method.invoke(this.service, parameterMap);
         } catch (Exception e) {
             e.printStackTrace();
         }

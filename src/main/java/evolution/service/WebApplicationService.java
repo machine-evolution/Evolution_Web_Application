@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -35,12 +36,9 @@ public class WebApplicationService {
     /**
      * parameterString样例：id0=0&id1=1
      */
-    public MatchingScoreResponse matchingScore(String parameterString) {
-        String[] parameterSubstrings = parameterString.split("&");
-        String parameterSubstring0 = parameterSubstrings[0];
-        String parameterSubstring1 = parameterSubstrings[1];
-        String userAId = parameterSubstring0.substring(parameterSubstring0.indexOf("=") + 1);
-        String userBId = parameterSubstring0.substring(parameterSubstring1.indexOf("=") + 1);
+    public MatchingScoreResponse matchingScore(Map<String, String[]> parameterMap) {
+        String userAId = parameterMap.get("id0")[0];
+        String userBId = parameterMap.get("id1")[0];
         // ID score
         int result = 0;
         if (userAId.equals(userBId)) {
