@@ -32,8 +32,10 @@ public class WebApplicationService {
         return new RegisterResponse(true, "The user is registered successfully.");
     }
 
-    public MatchingScoreResponse matchingScore(String uri) {
-        String parameterString = uri.substring(uri.indexOf("?") + 1);
+    /**
+     * parameterString样例：id0=0&id1=1
+     */
+    public MatchingScoreResponse matchingScore(String parameterString) {
         String[] parameterSubstrings = parameterString.split("&");
         String parameterSubstring0 = parameterSubstrings[0];
         String parameterSubstring1 = parameterSubstrings[1];
@@ -72,6 +74,7 @@ public class WebApplicationService {
         int userBAge = Optional.ofNullable(userB).map(User::getAge).orElse(0);
         result -= Math.abs(userAAge - userBAge);
         result = Math.max(result, 0);
+        System.out.println("Matching Score: " + result);
         return new MatchingScoreResponse(result);
     }
 

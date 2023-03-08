@@ -37,11 +37,21 @@ public class WebApplicationServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String requestUri = request.getRequestURI();
         System.out.println("Request URI: " + requestUri);
-        String methodName = requestUri.replace("/servlet/", "");
+        requestUri = requestUri.replace("/servlet/", "");
+        String methodName = null; String parameterString = null;
+        int questionMarkIndex = requestUri.indexOf("?");
+        if (questionMarkIndex >= 0) {
+            methodName = requestUri.substring(0, questionMarkIndex);
+            parameterString = requestUri.substring(questionMarkIndex + 1);
+        } else {
+            methodName = requestUri;
+        }
         System.out.println("Method Name: " + methodName);
+        System.out.println("Parameter String: " + parameterString);
         Object result = null;
         try {
-            // TODO: 模仿doPost方法中的反射代码，调用WebApplicationService中的matchingScore方法，并将requestUri传入，该方法的返回值赋给result
+            // TODO: 模仿doPost方法，使得WebApplicationService中的matchingScore方法可以通过反射的方式被调用
+            // result = TODO
         } catch (Exception e) {
             e.printStackTrace();
         }
