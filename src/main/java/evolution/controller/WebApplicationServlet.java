@@ -41,11 +41,10 @@ public class WebApplicationServlet extends HttpServlet {
         String methodName = requestUri.replace("/servlet/", "");
         System.out.println("Method Name: " + methodName);
         Map<String, String[]> parameterMap = request.getParameterMap();
-        System.out.println(parameterMap);
         Object result = null;
         try {
-            Method method = this.service.getClass().getDeclaredMethod(methodName, Map.class);
-            result = method.invoke(this.service, parameterMap);
+            // TODO: 模仿doPost方法的反射代码，使得WebApplicationService中的matchingScore方法可以通过反射的方式被调用，注意matchingScore方法的入参类型是Map
+            // result = TODO: parameterMap的类型也是Map
         } catch (Exception e) {
             e.printStackTrace();
         }
