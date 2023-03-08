@@ -32,14 +32,31 @@ public class WebApplicationService {
         return new RegisterResponse(true, "The user is registered successfully.");
     }
 
-    public MatchingScoreResponse matchingScore(String jsonString) {
-        List<User> users = JSONObject.parseArray(jsonString, User.class);
-        User userA = users.get(0); User userB = users.get(1);
+    public MatchingScoreResponse matchingScore(String uri) {
+        String parameterString = uri.substring(uri.indexOf("?") + 1);
+        String[] parameterSubstrings = parameterString.split("&");
+        String parameterSubstring0 = parameterSubstrings[0];
+        String parameterSubstring1 = parameterSubstrings[1];
+        String userAId = parameterSubstring0.substring(parameterSubstring0.indexOf("=") + 1);
+        String userBId = parameterSubstring0.substring(parameterSubstring1.indexOf("=") + 1);
         // ID score
         int result = 0;
-        String userAId = Optional.ofNullable(userA).map(User::getId).orElse("");
-        String userBId = Optional.ofNullable(userB).map(User::getId).orElse("");
         if (userAId.equals(userBId)) {
+            return new MatchingScoreResponse(result);
+        }
+        // Obtains two users
+        User userA = null; User userB = null;
+        for (User user : this.users) {
+            if (userAId.equals(user.id)) {
+                userA = user;
+            } else if (userBId.equals(user.id)) {
+                userB = user;
+            }
+            if (userA != null && userB != null) {
+                break;
+            }
+        }
+        if (userA == null || userB == null) {
             return new MatchingScoreResponse(result);
         }
         // gender score

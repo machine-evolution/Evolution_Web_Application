@@ -31,7 +31,24 @@ public class WebApplicationServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // Prepares for the JSON response.
+        this.renderJson(result, response);
+    }
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String requestUri = request.getRequestURI();
+        System.out.println("Request URI: " + requestUri);
+        String methodName = requestUri.replace("/servlet/", "");
+        System.out.println("Method Name: " + methodName);
+        Object result = null;
+        try {
+            // TODO: 模仿doPost方法中的反射代码，调用WebApplicationService中的matchingScore方法，并将requestUri传入，该方法的返回值赋给result
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.renderJson(result, response);
+    }
+
+    public void renderJson(Object result, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
