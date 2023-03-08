@@ -1,5 +1,6 @@
 package evolution.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import evolution.service.WebApplicationService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServlet;
@@ -9,85 +10,49 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 public class WebApplicationServlet extends HttpServlet {
+    public WebApplicationService service;
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Obtains the method name.
+        String requestUri = request.getRequestURI();
+        System.out.println("Request URI: " + requestUri);
+        String methodName = requestUri.replace("/servlet/", "");
+        System.out.println("Method Name: " + methodName);
+        // Obtains the JSON string request.
+        String jsonStringRequest = request.getReader().lines().collect(Collectors.joining());
+        // Invokes the method.
+        Object result = null;
+        try {
+            Method method = this.service.getClass().getDeclaredMethod(methodName, String.class);
+            result = method.invoke(this.service, jsonStringRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Prepares for the JSON response.
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        out.print(JSONObject.toJSONString(result));
+        out.flush();
+    }
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        System.out.println("The initialization method has been invoked.");
+        this.service = new WebApplicationService();
     }
 
     @Override
     public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
         super.service(request, response);
-        System.out.println("The service method has been invoked.");
     }
 
     @Override
     public void destroy() {
         super.destroy();
-        System.out.println("The destroy method has been invoked.");// call it multiple times.
-    }
-
-    /**
-     * 通过 http://localhost:8080/servlet/get 进行调用
-     */
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*
-        // Gets the servlet name.
-        String servletName = this.getServletName();
-        System.out.println("servletName: " + servletName);
-        // Gets the servlet information.
-        String servletInformation = this.getServletInfo();
-        System.out.println("servletInformation: " + servletInformation);
-        // Gets the servlet config.
-        ServletConfig servletConfig = this.getServletConfig();
-        System.out.println("servletConfig: " + servletConfig);
-        ServletContext servletContext = this.getServletContext();
-        System.out.println("servletContext: " + servletContext);
-        */
-
-        // Renders the HTML.
-        /*
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.println("<marquee><input id=\"\"/></marquee>");// marquee h1 input
-        out.flush();
-        */
-
-        // Renders the JSON.
-        /*
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        User user = new User();
-        user.name = "Peter"; user.age = 10;
-        String jsonString = JSONObject.toJSONString(user);
-        out.print(jsonString);
-        out.flush();
-         */
-
-        // Invokes the service method using reflection.
-        String requestUri = request.getRequestURI();
-        System.out.println("requestUri: " + requestUri);
-        String methodName = requestUri.replace("/servlet/", "");
-        WebApplicationService service = new WebApplicationService();
-        try {
-            System.out.println("methodName: " + methodName);
-            Method method = service.getClass().getDeclaredMethod(methodName, Map.class);
-            Map<String, String> map = Map.of("name", "Lucy");
-            method.invoke(service, map);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Renders the HTML.
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.println("<p>Hello World!</p>");
+        this.service.users.clear();
     }
 }
